@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>Data Quality Validation</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="a.css">
+	
+</head>
+<body>
+	<h1>Data Quality Validation with Custom Business Rule</h1>
+	<div>
+		<form action="">
+			<b>Input File Name</b>
+			<input type="text" name="filename" placeholder=" File Name">
+			<input type="file" name="csvfile" accept=".csv" value="Upload File">
+			<button onclick="">Upload file from s3</button>
+		</form>
+	</div>
+	<div>
+		<h2> Input Condition </h2>
+		<p>Build your data validating custom logic here:</p>
+		<table Id="t1">
+			<tr>
+				<th>Attribute Name</th>
+				<th>Operator</th>
+				<th>Data Type</th>
+				<th>Attribute Value</th>
+			</tr>
+			<tr id="r1">
+			<form>
+				<td><input type="text" name="attn1" placeholder="Salary"></td>
+				<td><select id="op1">
+				<option value="regex match">REGEX Match</option>
+				<option value="equal to">Equal To</option>
+				<option value="not equal to">Not Equal To</option>
+				<option value="less than">Less than</option>
+				<option value="greater Than">Greater Than</option>
+				<option value="less than equal to">Less Than Equal To</option>
+				<option value="greater than equal to">Greater Than Equal To</option>
+				<option value="between">Between</option>
+				<option value="and">And</option>
+				<option value="or">Or</option>
+				<option value="in">Not</option>
+				<option value="not in">Not In</option>
+				</select>
+				</td>
+				<td><select name="dt1">
+				<option value="string">String</option>
+				<option value="date">Date</option>
+				<option value="numeric">Numeric</option>
+				</select>
+				</td>
+				<td><input type="text" name="attv1" placeholder="5000"></td>
+				<td><input type="button" onclick="addRow('t1');addRow('t2');" value="&oplus;"></td>
+				</form>
+				</tr>
+		</table>
+		<table Id="t2">
+			<tr><th>Treat next rule as</th></tr>
+			<form>
+			<tr><td><input type="radio" name="rule" value="And">And</td><td><input type="radio" name="rule" value="Or">Or</td></tr>
+			</form>
+		</table>
+		<p></p>
+	</div>
+	<div>
+		<h2> Data for Validation</h2>
+		<p>Mention reference data here:</p>
+		<table Id="t3">
+		<tr>
+		<th>Attribute Name</th>
+		<th>Operator</th>
+		<th>Data Type</th>
+		<th>Attribute Value</th>
+		</tr>
+		<tr id="r3">
+		<form>
+		<td><input type="text" name="attn1" placeholder="Designation"></td>
+		<td><select name="op1">
+		<option value="regex match">REGEX Match</option>
+		<option value="equal to">Equal To</option>
+		<option value="not equal to">Not Equal To</option>
+		<option value="less than">Less than</option>
+		<option value="greater Than">Greater Than</option>
+		<option value="less than equal to">Less Than Equal To</option>
+		<option value="greater than equal to">Greater Than Equal To</option>
+		<option value="between">Between</option>
+		<option value="and">And</option>
+		<option value="or">Or</option>
+		<option value="in">Not</option>
+		<option value="not in">Not In</option>
+		</select>
+		</td>
+		<td><select name="dt1">
+		<option value="string">String</option>
+		<option value="date">Date</option>
+		<option value="numeric">Numeric</option>
+		</select>
+		</td>
+		<td><input type="text" name="attv1" placeholder="Manager"></td>
+		<td><input type="button" onclick="addRow('t3');addRow('t4');" value="&oplus;"></td>
+		</form>
+		</tr>
+		</table>
+		<table Id="t4">
+		<tr><th>Treat next rule as</th></tr>
+		<tr><td><input type="radio" name="rule" value="And">And</td><td><input type="radio" name="rule" value="Or">Or</td></tr>
+		</table>
+	</div>
+	<div><h2> Custom DQ Rule: </h2>
+	<form>
+		<textarea rows="7" cols="190" placeholder="If Salary > 5000 and Experience between 12 and 15 Then Designation = &quot Manager &quot"></textarea>
+	<input type="submit" id="i5" align="right">
+	</form>
+	</div>
+
+
+
+	<script>
+		function addRow(tableID) {
+			var table = document.getElementById(tableID);
+			//var rowCount = table.rows.length;
+			var row = table.insertRow(-1);
+			var colCount = table.rows[1].cells.length;
+			for(var i=0; i<colCount; i++) {
+				var newcell	= row.insertCell(i);
+				newcell.innerHTML = table.rows[1].cells[i].innerHTML;
+				//alert(newcell.childNodes);
+				switch(newcell.childNodes[0].type) {
+					case "text":
+							newcell.childNodes[0].value = "";
+							break;
+					case "checkbox":
+							newcell.childNodes[0].checked = false;
+							break;
+					case "select-one":
+							newcell.childNodes[0].selectedIndex = 0;
+							break;
+				}
+			}
+		}
+	</script>
+</body>
+</html>
